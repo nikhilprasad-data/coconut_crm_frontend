@@ -1,0 +1,165 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+
+.loginCard {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  text-align: center;
+  color: #212529;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #495057;
+  font-size: 14px;
+}
+
+
+.inputField {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #212529;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background-color: #0d6efd;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.submitBtn:hover {
+  background-color: #0b5ed7;
+}
+
+
+.demoSection {
+  text-align: center;
+  margin-top: 30px;
+  border-top: 1px solid #e9ecef;
+  padding-top: 20px;
+}
+
+.demoText {
+  font-size: 12px;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.demoBtnRow {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+
+.demoBtnAdmin {
+  flex: 1;
+  padding: 10px;
+  background-color: #343a40;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.demoBtnAdmin:hover {
+  background-color: #212529;
+}
+
+.demoBtnSeller {
+  flex: 1;
+  padding: 10px;
+  background-color: #f8f9fa;
+  color: #212529;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.demoBtnSeller:hover {
+  background-color: #e2e6ea;
+}
+
+
+@media (max-width: 480px) {
+
+  .loginCard {
+    padding: 25px 20px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .inputField {
+    padding: 10px;
+  }
+
+  .submitBtn {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .demoBtnRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .demoBtnAdmin, .demoBtnSeller {
+    width: 100%;
+    padding: 12px;
+  }
+}
