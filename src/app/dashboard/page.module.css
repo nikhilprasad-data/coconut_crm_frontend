@@ -1,0 +1,148 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f8f9fa; 
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.topNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+}
+
+.logoArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoText {
+  margin: 0;
+  color: #212529;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.welcomeText {
+  margin: 5px 0 0 0;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.roleHighlight {
+  text-transform: capitalize;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+.logoutBtn {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #c82333;
+}
+
+.dashboardSection {
+  margin-top: 20px;
+}
+
+.sectionTitle {
+  color: #495057;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.dashboardCard {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.cardTitle {
+  color: #212529;
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cardDesc {
+  color: #6c757d;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.borderBlue { border-top: 5px solid #0d6efd; }
+.borderGreen { border-top: 5px solid #198754; }
+.borderYellow { border-top: 5px solid #ffc107; }
+.borderTeal { border-top: 5px solid #0dcaf0; }
+.borderPurple { border-top: 5px solid #6f42c1; }
+
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 20px 15px; 
+  }
+
+  .topNavbar {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .logoText {
+    font-size: 22px;
+  }
+
+  .logoutBtn {
+    width: 100%; 
+    padding: 12px;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .dashboardCard {
+    padding: 25px 20px;
+  }
+}
