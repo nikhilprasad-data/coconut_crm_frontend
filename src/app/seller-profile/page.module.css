@@ -1,0 +1,136 @@
+
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa; 
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profileCard {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 1rem; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 550px;
+}
+
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1.5rem;
+}
+
+.pageTitle {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.backBtn {
+  padding: 0.6rem 1.2rem;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.backBtn:hover {
+  background-color: #0b5ed7;
+}
+
+.profileGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.infoRow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  background-color: #ffffff;
+}
+
+.infoLabel {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.infoValue {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.infoValueHighlight {
+  color: #2563eb; 
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.loadingState, .errorState {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-weight: 600;
+}
+
+.loadingState { color: #64748b; }
+.errorState { color: #ef4444; }
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: 1rem;
+    align-items: flex-start; 
+  }
+
+  .profileCard {
+    padding: 1.5rem;
+  }
+
+  .headerSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .backBtn {
+    width: 100%;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .infoValue, .infoValueHighlight {
+    text-align: left;
+    font-size: 1rem;
+  }
+}
