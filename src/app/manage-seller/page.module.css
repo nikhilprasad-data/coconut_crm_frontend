@@ -1,0 +1,174 @@
+
+
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2.5rem; /* ~40px */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem; 
+}
+
+.pageTitle {
+  margin: 0;
+  color: #212529;
+  font-size: 1.75rem; 
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.pageSubtitle {
+  margin: 0.25rem 0 0 0;
+  color: #6c757d;
+  font-size: 0.875rem; 
+}
+
+.headerButtons {
+  display: flex;
+  gap: 1rem; 
+}
+
+
+.backBtn, .addBtn {
+  padding: 0.625rem 1.25rem; 
+  border-radius: 0.375rem; 
+  font-size: 0.875rem; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backBtn {
+  background-color: #ffffff;
+  color: #495057;
+  border: 1px solid #ced4da;
+}
+
+.backBtn:hover {
+  background-color: #e9ecef;
+}
+
+.addBtn {
+  background-color: #0d6efd;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+}
+
+.addBtn:hover {
+  background-color: #0b5ed7;
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.tableCard {
+  background-color: #ffffff;
+  border-radius: 0.5rem; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem; 
+}
+
+
+.tableResponsive {
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; 
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px; 
+}
+
+
+.dataTable th {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.dataTable td {
+  padding: 1rem;
+  color: #212529;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s;
+}
+
+.dataTable tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.idColumn { 
+  color: #6c757d; 
+  font-family: monospace; 
+  font-size: 0.9rem;
+}
+
+.nameColumn { 
+  font-weight: 600; 
+  color: #212529; 
+}
+
+.textCenter { 
+  text-align: center; 
+}
+
+
+.deleteBtn {
+  padding: 0.375rem 0.75rem; 
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem; 
+  font-size: 0.75rem; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteBtn:hover {
+  background-color: #c82333;
+}
+
+.loadingState, .emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 1rem; 
+  }
+
+  .headerSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .headerButtons {
+    width: 100%;
+    flex-direction: column-reverse; 
+  }
+
+  .backBtn, .addBtn {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
+
+  .tableCard {
+    padding: 1rem 0; 
+  }
+}
