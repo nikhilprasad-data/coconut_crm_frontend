@@ -74,7 +74,7 @@ return (
               suppressHydrationWarning={true}
             >
               <option value="admin">Admin</option>
-              <option value="seller">Seller</option>
+              <option value="Seller">Seller</option>
             </select>
           </div>
 

@@ -116,7 +116,7 @@ return (
                )}
 
 
-               {userRole === "seller" && (
+               {userRole === "Seller" && (
                     <div className={styles.dashboardSection}>
                          <h3 className={styles.sectionTitle}>🏪 My Dashboard</h3>
                          
