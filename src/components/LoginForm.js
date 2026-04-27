@@ -18,7 +18,7 @@ export default function LoginForm() {
                setPassword("demo_password");
           } else{
                setRole("Seller");
-               setUsername("demo_seller_11");
+               setUsername("demo_seller_12");
                setPassword("demo_password");
           }
      };
