@@ -36,7 +36,7 @@ export default function AddSellerForm() {
                router.push('/')
                return;
           }
-          fetch("http://127.0.0.1:5000/api/seller/add",{
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seller/add`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",

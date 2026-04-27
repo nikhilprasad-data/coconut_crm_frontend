@@ -39,9 +39,9 @@ export default function Dashboard() {
           const role     = localStorage.getItem("role");
           const token    = localStorage.getItem("coconut_token");
 
-          const apiUrl   = role == 'admin'
-          ?"http://127.0.0.1:5000/api/auth/logout/admin"
-          :"http://127.0.0.1:5000/api/auth/logout/seller";
+     const apiUrl = role == 'admin'
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
+          : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
 
           fetch(apiUrl,{
                method    : "POST",

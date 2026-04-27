@@ -27,7 +27,7 @@ export default function YearlyReport() {
      }
      setRole(storedRole);
 
-     fetch("http://127.0.0.1:5000/api/analytics/yearly-purchase", {
+     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analytics/yearly-purchase`, {
           method         : "GET",
           mode           : "cors",
           credentials    : "omit",
@@ -62,7 +62,7 @@ export default function YearlyReport() {
                router.push('/')
                return;
           }
-          fetch("http://127.0.0.1:5000/api/auth/logout/admin", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",

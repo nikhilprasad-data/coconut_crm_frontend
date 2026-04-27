@@ -38,7 +38,7 @@ export default function ManagePurchase() {
           }
           setRole(storedRole);
 
-          fetch("http://127.0.0.1:5000/api/purchase/all", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/all`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",
@@ -76,7 +76,7 @@ export default function ManagePurchase() {
           }
           setRole(storedRole);
 
-          fetch("http://127.0.0.1:5000/api/purchase/data/" + selectedSellerId, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/data/${selectedSellerId}`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",
@@ -106,7 +106,7 @@ export default function ManagePurchase() {
      const handleClearSearchButton = () => {
           const token = localStorage.getItem("coconut_token")
           setSelectedSellerId("");
-          fetch("http://127.0.0.1:5000/api/purchase/all", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/all`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",
@@ -157,7 +157,7 @@ export default function ManagePurchase() {
                alert("All fields are required for add Purchase.");
                return;
           }
-          fetch("http://127.0.0.1:5000/api/purchase/add", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/add`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",
@@ -215,8 +215,8 @@ export default function ManagePurchase() {
                router.push('/');
                return;
           }
-          const apiUrl = actionType === "UPDATE"  ? "http://127.0.0.1:5000/api/purchase/update/" + selectedPurchaseId
-                                                  : "http://127.0.0.1:5000/api/purchase/replace/" + selectedPurchaseId ;
+          const apiUrl = actionType === "UPDATE" ? `${process.env.NEXT_PUBLIC_API_URL}/api/purchase/update/${selectedPurchaseId}`
+                                       : `${process.env.NEXT_PUBLIC_API_URL}/api/purchase/replace/${selectedPurchaseId}`;
 
           const method = actionType === "UPDATE"  ? "PATCH"
                                                   : "PUT" ;

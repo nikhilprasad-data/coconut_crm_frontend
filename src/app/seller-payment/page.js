@@ -22,7 +22,7 @@ export default function SellerPayment() {
                return;
           }
 
-          fetch("http://127.0.0.1:5000/api/payment/my-payment", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/my-payment`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",

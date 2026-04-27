@@ -27,7 +27,7 @@ export default function HierarchyReport() {
      }
      setRole(storedRole);
 
-     fetch("http://127.0.0.1:5000/api/analytics/revenue-hierarchy", {
+     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/analytics/revenue-hierarchy`, {
           method         : "GET",
           mode           : "cors",
           credentials    : "omit",
@@ -62,7 +62,7 @@ export default function HierarchyReport() {
                router.push('/')
                return;
           }
-          fetch("http://127.0.0.1:5000/api/auth/logout/admin", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",

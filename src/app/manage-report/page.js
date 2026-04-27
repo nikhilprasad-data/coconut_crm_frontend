@@ -34,7 +34,7 @@ export default function ManageReports() {
                router.push('/');
                return;
           }
-          fetch("http://127.0.0.1:5000/api/auth/logout/admin", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",

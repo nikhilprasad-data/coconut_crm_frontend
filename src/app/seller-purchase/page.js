@@ -21,7 +21,7 @@ export default function SellerPurchase() {
                router.push('/');
                return;
           }
-          fetch("http://127.0.0.1:5000/api/purchase/my-purchase", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/my-purchase`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",

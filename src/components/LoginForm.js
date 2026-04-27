@@ -26,8 +26,8 @@ export default function LoginForm() {
           e.preventDefault()
 
           const apiUrl = role == "admin"
-          ? "http://127.0.0.1:5000/api/auth/login/admin"
-          : "http://127.0.0.1:5000/api/auth/login/seller"
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login/admin`
+          : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login/seller`;
 
           fetch(apiUrl,{
                method       : "POST",

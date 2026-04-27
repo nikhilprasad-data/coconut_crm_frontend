@@ -21,7 +21,7 @@ export default function ManageSellers() {
           if (!token){
                router.push('/');
           }
-          fetch("http://127.0.0.1:5000//api/seller/data",
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seller/data`,
                {
                     method         : "GET",
                     mode           : "cors",
@@ -54,8 +54,7 @@ export default function ManageSellers() {
 
           const token = localStorage.getItem("coconut_token");
 
-          fetch("http://127.0.0.1:5000//api/seller/delete/" + seller_id, 
-               {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seller/delete/${seller_id}`, {
                     method         : "DELETE",
                     mode           : "cors",
                     credentials    : "omit",

@@ -19,7 +19,7 @@ export default function SellerProfile() {
                router.push('/');
                return;
           } 
-          fetch("http://127.0.0.1:5000/api/seller/profile", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seller/profile`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",

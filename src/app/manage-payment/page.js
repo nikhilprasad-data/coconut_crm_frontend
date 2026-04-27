@@ -48,7 +48,7 @@ export default function ManagePayment() {
                alert("Please fill all the details to add a payment.");
                return;
           }
-          fetch("http://127.0.0.1:5000/api/payment/add", {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/add`, {
                method         : "POST",
                mode           : "cors",
                credentials    : "omit",
@@ -88,7 +88,7 @@ export default function ManagePayment() {
           router.push('/');
           return;
          }
-         fetch("http://127.0.0.1:5000/api/payment/all", {
+         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/all`, {
           method         : "GET",
           mode           : "cors",
           credentials    : "omit",
@@ -132,7 +132,7 @@ export default function ManagePayment() {
                alert("Please enter a valid positive Seller ID");
                return; 
           }
-          fetch("http://127.0.0.1:5000/api/payment/data/" + searchId, {
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/data/${searchId}`, {
                method         : "GET",
                mode           : "cors",
                credentials    : "omit",
@@ -174,7 +174,7 @@ export default function ManagePayment() {
           router.push('/');
           return;
          }
-         fetch("http://127.0.0.1:5000/api/payment/all", {
+         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/all`, {
           method         : "GET",
           mode           : "cors",
           credentials    : "omit",
@@ -223,8 +223,8 @@ export default function ManagePayment() {
                router.push('/');
                return;
           }
-          const apiUrl = actionType === "UPDATE"  ? "http://127.0.0.1:5000/api/payment/update/" + selectedPaymentId
-                                                  : "http://127.0.0.1:5000/api/payment/replace/" + selectedPaymentId ;
+          const apiUrl = actionType === "UPDATE" ? `${process.env.NEXT_PUBLIC_API_URL}/api/payment/update/${selectedPaymentId}`
+                                       : `${process.env.NEXT_PUBLIC_API_URL}/api/payment/replace/${selectedPaymentId}`;
           
           const method = actionType === "UPDATE"  ? "PATCH"
                                                   : "PUT" ;
