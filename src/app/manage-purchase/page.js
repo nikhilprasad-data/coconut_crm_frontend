@@ -1,10 +1,10 @@
 "use client";
 
-import {useRouter} from "next/navigation";
-
 import {useState,useEffect} from "react";
-
-import styles from "./page.module.css";
+import {useRouter} from "next/navigation";
+import SpinnerLoader from "@/components/SpinnerLoader";
+import styles  from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function ManagePurchase() {
 
@@ -32,7 +32,7 @@ export default function ManagePurchase() {
           const token         = localStorage.getItem("coconut_token");
 
           if (!token || storedRole !== "admin"){
-               alert("Access Denied. Please login as admin");
+               toast.error("Access Denied. Please log in as admin.");
                router.push('/');
                return;
           }
@@ -49,29 +49,66 @@ export default function ManagePurchase() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully fetched all Purchase records");
+                    toast.success("Purchase records loaded successfully. 📦");
                     setPurchaseData(data.data);
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to load records.");
                }
                setIsLoading(false);
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setIsLoading(false);
           });
-     }, []);
+     }, [router]);
+
+     const handleLogoutButton = () => {
+          const token = localStorage.getItem("coconut_token");
+
+          if (!token){
+               toast.error("Session expired. Please log in again.");
+               router.push('/');
+               return;
+          }
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`, {
+               method         : "POST",
+               mode           : "cors",
+               credentials    : "omit",
+               headers        : {
+                    "Content-Type" : "application/json",
+                    "Authorization": "Bearer " + token,
+                    "Accept"       : "application/json"
+               }
+          })
+          .then((response) => response.json())
+          .then((data) => {
+               if (data.status === "success"){
+                    toast.success("Successfully logged out. 👋");
+                    localStorage.removeItem("coconut_token");
+                    localStorage.removeItem("role");
+                    router.push('/');
+               } else{
+                    toast.error(data.message || "Logout failed.");
+               }
+          })
+          .catch((error) => {
+               toast.error("Network error. Please try again.");
+          })
+     }
 
      const handleSearchButton = (selectedSellerId) => {
           const storedRole    = localStorage.getItem("role");
           const token         = localStorage.getItem("coconut_token");
 
           if (!token || storedRole !== "admin"){
-               alert("Access Denied. Please login as admin");
+               toast.error("Access Denied. Please log in as admin.");
                router.push('/');
+               return;
+          }
+          if(!selectedSellerId){
+               toast.error("Please enter a Seller ID to search.");
                return;
           }
           setRole(storedRole);
@@ -87,18 +124,17 @@ export default function ManagePurchase() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert(`Successfully fetched all Purchase records of Seller Id ${selectedSellerId}`);
+                    toast.success(`Purchase records for Seller #${selectedSellerId} filtered successfully. 🔍`);
                     setPurchaseData(data.purchase_data);
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "No records found.");
                }
                setIsLoading(false);
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setIsLoading(false);
           });
      };
@@ -106,6 +142,13 @@ export default function ManagePurchase() {
      const handleClearSearchButton = () => {
           const token = localStorage.getItem("coconut_token")
           setSelectedSellerId("");
+          
+          if (!token){
+               toast.error("Session expired. Please log in again.");
+               router.push('/');
+               return;
+          }
+
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/all`, {
                method         : "GET",
                mode           : "cors",
@@ -117,17 +160,16 @@ export default function ManagePurchase() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
                     setPurchaseData(data.data);
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to reload records.");
                }
                setIsLoading(false);
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setIsLoading(false);
           });
      };
@@ -149,12 +191,12 @@ export default function ManagePurchase() {
           const storedRole    = localStorage.getItem("role")
 
           if(!token || storedRole !== "admin"){
-               alert("Access Denied. Please login as admin");
+               toast.error("Access Denied. Please log in as admin.");
                router.push('/');
                return;
           }
-          if (sellerId ==="" || purchaseDate=== "" || totalBags === "" || wastePieces === "" || ratePerPiece === "" || totalAmount === ""){
-               alert("All fields are required for add Purchase.");
+          if (sellerId ==="" || purchaseDate=== "" || totalBags === "" || wastePieces === "" || ratePerPiece === ""){
+               toast.error("All fields are required to add a purchase.");
                return;
           }
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/purchase/add`, {
@@ -175,18 +217,17 @@ export default function ManagePurchase() {
                })
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Purchase Added Successfullly");
+                    toast.success("Purchase added successfully! 🛒");
                     setOpenAddModal(false);
                     handleClearSearchButton();
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to add purchase.");
                }
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setOpenAddModal(false);
           });
      };
@@ -211,15 +252,14 @@ export default function ManagePurchase() {
           const storedRole    = localStorage.getItem("role");
 
           if (!token || storedRole !== "admin"){
-               alert("Acces Denied. Please login as admin");
+               toast.error("Access Denied. Please log in as admin.");
                router.push('/');
                return;
           }
           const apiUrl = actionType === "UPDATE" ? `${process.env.NEXT_PUBLIC_API_URL}/api/purchase/update/${selectedPurchaseId}`
                                        : `${process.env.NEXT_PUBLIC_API_URL}/api/purchase/replace/${selectedPurchaseId}`;
 
-          const method = actionType === "UPDATE"  ? "PATCH"
-                                                  : "PUT" ;
+          const method = actionType === "UPDATE"  ? "PATCH" : "PUT" ;
           
           fetch(apiUrl, {
                method              : method,
@@ -240,18 +280,17 @@ export default function ManagePurchase() {
                })
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert(`Successfully ${actionType === "UPDATE" ? "updated" : "replaced"} Purchase id ${selectedPurchaseId}`);
+                    toast.success(`Purchase #${selectedPurchaseId} ${actionType === "UPDATE" ? "updated" : "replaced"} successfully. ✅`);
                     setOpenActionModal(false)
                     handleClearSearchButton();
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Operation failed.");
                }
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setOpenActionModal(false);
           });
      }
@@ -264,9 +303,14 @@ export default function ManagePurchase() {
                          <h2 className={styles.pageTitle}>🛒 Admin: All Purchases</h2>
                          <p className={styles.pageSubtitle}>Manage system-wide inventory intake</p>
                     </div>
-                    <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
-                         🔙 Back to Dashboard
-                    </button>
+                    <div className={styles.headerBtnGroup}>
+                         <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
+                              🔙 Back to Dashboard
+                         </button>
+                         <button onClick={handleLogoutButton} className={styles.logoutBtn}>
+                              Logout 🚪
+                         </button>
+                    </div>
                </div>
 
                <div className={styles.toolbar}>
@@ -297,9 +341,7 @@ export default function ManagePurchase() {
                <div className={styles.tableCard}>
                     
                     {isLoading ? (
-                         <div className={styles.loadingState}>
-                              <h3>Loading All Purchases... ⏳</h3>
-                         </div>
+                         <SpinnerLoader text="Loading All Purchases... ⏳" />
                     ) : (
                          <div className={styles.tableResponsive}>
                               <table className={styles.dataTable}>

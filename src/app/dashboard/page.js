@@ -2,36 +2,33 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SpinnerLoader from "@/components/SpinnerLoader";
+import toast from 'react-hot-toast';
 import styles from "./page.module.css";
 
 export default function Dashboard() {
      const router   = useRouter();
 
      const [userRole, setRole] = useState("");
+     const [isLoading, setIsLoading] = useState(true);
 
      useEffect(()=>{
           const role = localStorage.getItem("role");
 
           if (role){
                setRole(role);
+               setIsLoading(false);
           } else{
                router.push('/');
           }
-     }, []);
-
+     }, [router]);
 
      const handleSellerButton           = () => router.push('/manage-seller');
-
      const handlePurchaseButton         = () => router.push('/manage-purchase');
-
      const handlePaymentButton          = () => router.push('/manage-payment');
-
      const handleReportButton           = () => router.push('/manage-report');
-
      const handleSellerProfileButton    = () => router.push('/seller-profile');
-
      const handleSellerPurchaseButton   = () => router.push('/seller-purchase');
-
      const handleSellerPaymentButton    = () => router.push('/seller-payment');
 
      const handleLogoutButton           = (e) => {
@@ -39,9 +36,9 @@ export default function Dashboard() {
           const role     = localStorage.getItem("role");
           const token    = localStorage.getItem("coconut_token");
 
-     const apiUrl = role == 'admin'
-          ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
-          : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
+          const apiUrl = role == 'admin'
+               ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
+               : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
 
           fetch(apiUrl,{
                method    : "POST",
@@ -54,22 +51,26 @@ export default function Dashboard() {
                }
           })
           .then((response)=> response.json())
-
           .then((data)=>{
                if (data.status === "success"){
-                    alert(data.message);
+                    toast.success(data.message);
                     localStorage.removeItem("coconut_token");
                     localStorage.removeItem("role");
                     router.push('/');
                } else{
-                    alert(data.message);
+                    toast.error(data.message);
                }
           })
           .catch((error)=>{
-               alert(error.message);
+               toast.error(error.message);
           });
      };
-return (
+
+     if (isLoading) {
+          return <SpinnerLoader text="Loading Dashboard..." />;
+     }
+
+     return (
           <div className={styles.pageWrapper}>
                
                <div className={styles.topNavbar}>
@@ -83,7 +84,6 @@ return (
                          Logout 🚪
                     </button>
                </div>
-
 
                {userRole === "admin" && (
                     <div className={styles.dashboardSection}>
@@ -114,7 +114,6 @@ return (
                          </div>
                     </div>
                )}
-
 
                {userRole === "Seller" && (
                     <div className={styles.dashboardSection}>

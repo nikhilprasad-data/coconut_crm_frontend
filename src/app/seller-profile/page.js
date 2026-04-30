@@ -2,8 +2,9 @@
 
 import {useState,useEffect} from "react";
 import {useRouter} from "next/navigation";
-
+import SpinnerLoader from "@/components/SpinnerLoader";
 import styles from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function SellerProfile() {
      const router = useRouter();
@@ -15,7 +16,7 @@ export default function SellerProfile() {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please login again.");
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           } 
@@ -30,21 +31,60 @@ export default function SellerProfile() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully fetched your profile data");
+                    toast.success("Profile data loaded successfully. 👤");
                     setProfile(data.seller_profile);
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to load profile.");
                }
                setIsLoading(false);
           })
           .catch((error) =>{
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setIsLoading(false);
           });
-     }, []);
+     }, [router]);
+
+     const handleLogoutButton = () => {
+          const token = localStorage.getItem("coconut_token");
+          const role = localStorage.getItem("role");
+
+          if (!token){
+               toast.error("Session expired. Please log in again.");
+               router.push('/');
+               return;
+          }
+          
+          const apiUrl = role === 'admin' 
+               ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
+               : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
+
+          fetch(apiUrl, {
+               method         : "POST",
+               mode           : "cors",
+               credentials    : "omit",
+               headers        : {
+                    "Content-Type" : "application/json",
+                    "Authorization": "Bearer " + token,
+                    "Accept"       : "application/json"
+               }
+          })
+          .then((response) => response.json())
+          .then((data) => {
+               if (data.status === "success"){
+                    toast.success("Successfully logged out. 👋");
+                    localStorage.removeItem("coconut_token");
+                    localStorage.removeItem("role");
+                    router.push('/');
+               } else{
+                    toast.error(data.message || "Logout failed.");
+               }
+          })
+          .catch((error) => {
+               toast.error("Network error. Please try again.");
+          })
+     }
 
      return (
           <div className={styles.pageWrapper}>
@@ -52,15 +92,18 @@ export default function SellerProfile() {
                     
                     <div className={styles.headerSection}>
                          <h2 className={styles.pageTitle}>👤 My Profile</h2>
-                         <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
-                              🔙 Dashboard
-                         </button>
+                         <div className={styles.headerBtnGroup}>
+                              <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
+                                   🔙 Dashboard
+                              </button>
+                              <button onClick={handleLogoutButton} className={styles.logoutBtn}>
+                                   Logout 🚪
+                              </button>
+                         </div>
                     </div>
 
                     {isLoading ? (
-                         <div className={styles.loadingState}>
-                              Loading Profile Data... ⏳
-                         </div>
+                         <SpinnerLoader text="Loading Profile Data... ⏳" />
                     ) : profile ? (
 
                          <div className={styles.profileGrid}>

@@ -1,10 +1,10 @@
 "use client";
 
 import {useState,useEffect} from "react";
-
 import {useRouter} from "next/navigation";
-
+import SpinnerLoader from "@/components/SpinnerLoader";
 import styles  from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function ManagePayment() {
 
@@ -36,16 +36,56 @@ export default function ManagePayment() {
           setShowAddModal(true);
      }
 
+     const handleLogoutButton = () => {
+          const token = localStorage.getItem("coconut_token");
+          const role = localStorage.getItem("role");
+
+          if (!token){
+               toast.error("Session expired. Please log in again.");
+               router.push('/');
+               return;
+          }
+          
+          const apiUrl = role === 'admin' 
+               ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
+               : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
+
+          fetch(apiUrl, {
+               method         : "POST",
+               mode           : "cors",
+               credentials    : "omit",
+               headers        : {
+                    "Content-Type" : "application/json",
+                    "Authorization": "Bearer " + token,
+                    "Accept"       : "application/json"
+               }
+          })
+          .then((response) => response.json())
+          .then((data) => {
+               if (data.status === "success"){
+                    toast.success("Successfully logged out. 👋");
+                    localStorage.removeItem("coconut_token");
+                    localStorage.removeItem("role");
+                    router.push('/');
+               } else{
+                    toast.error(data.message || "Logout failed.");
+               }
+          })
+          .catch((error) => {
+               toast.error("Network error. Please try again.");
+          })
+     }
+
      const handleAddButton = () => {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please login again.");
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           }
           if (sellerId === "" || paymentDate === "" || amountPaid === "" || paymentMethod === ""){
-               alert("Please fill all the details to add a payment.");
+               toast.error("Please fill all required details to add a payment.");
                return;
           }
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/add`, {
@@ -65,18 +105,17 @@ export default function ManagePayment() {
                })
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully added Payment");
+                    toast.success("Payment recorded successfully! 💳");
                     setShowAddModal(false);
                     handleClearSearch();
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to add payment.");
                }
           })
           .catch((error) =>{
-               alert(error.message);
+               toast.error("Network error. Please try again.");
           });
      }
  
@@ -84,7 +123,7 @@ export default function ManagePayment() {
          const token = localStorage.getItem("coconut_token");
          
          if (!token){
-          alert("Session expired. Please login again");
+          toast.error("Session expired. Please log in again.");
           router.push('/');
           return;
          }
@@ -99,37 +138,34 @@ export default function ManagePayment() {
           }
          })
          .then((response) => response.json())
-
          .then((data) => {
-          
           if (data.status === "success"){
-               alert("Successfully fetched all Payment records");
+               toast.success("Payment records loaded successfully. 📊");
                setAllPayment(data.data);
           } else{
-               alert("Error: " + data.message);
+               toast.error(data.message || "Failed to load records.");
           }
           setIsLoading(false)
          })
-         
          .catch((error) => {
-          alert(error.message);
+          toast.error("Network error. Please try again.");
           setIsLoading(false);
          });
-     }, []);
+     }, [router]);
 
      const handleSearchButton = () => {
           const token = localStorage.getItem("coconut_token");
           if (!token){
-               alert("Session expired. Please login again.");
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           }
           if (searchId === ""){
-               alert("Please enter Seller Id");
+               toast.error("Please enter a Seller ID to search.");
                return;
           }
           if (searchId === "" || Number(searchId) <= 0){
-               alert("Please enter a valid positive Seller ID");
+               toast.error("Invalid Seller ID. Please provide a positive number.");
                return; 
           }
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payment/data/${searchId}`, {
@@ -142,23 +178,19 @@ export default function ManagePayment() {
                     "Accept"       : "application/json"
                }
           })
-
          .then((response) => response.json())
-
          .then((data) => {
-          
           if (data.status === "success"){
-               alert("Successfully fetched all Payment records by Seller Id");
+               toast.success("Seller payment records filtered successfully. 🔍");
                setAllPayment(data.payment);
           } else{
-               alert("Error: " + data.message);
+               toast.error(data.message || "No records found.");
                setAllPayment([])
           }
           setIsLoading(false)
          })
-         
          .catch((error) => {
-          alert(error.message);
+          toast.error("Network error. Please try again.");
           setIsLoading(false);
          })
      }
@@ -170,7 +202,7 @@ export default function ManagePayment() {
          const token = localStorage.getItem("coconut_token");
          
          if (!token){
-          alert("Session expired. Please login again");
+          toast.error("Session expired. Please log in again.");
           router.push('/');
           return;
          }
@@ -185,33 +217,27 @@ export default function ManagePayment() {
           }
          })
          .then((response) => response.json())
-
          .then((data) => {
-          
           if (data.status === "success"){
                setAllPayment(data.data);
           } else{
-               alert("Error: " + data.message);
+               toast.error(data.message || "Failed to reload records.");
           }
           setIsLoading(false)
          })
-         
          .catch((error) => {
-          alert(error.message);
+          toast.error("Network error. Please try again.");
           setIsLoading(false);
          });
      };
 
      const openModal = (payment, type) => {
           setSelectedPaymentId(payment.payment_id);
-
           setSellerId(payment.seller_id);
           setPaymentDate(payment.payment_date);
           setAmountPaid(payment.amount_paid);
           setPaymentMethod(payment.payment_method);
-
           setActionType(type);
-
           setShowUpdateModal(true);
      };
 
@@ -219,15 +245,14 @@ export default function ManagePayment() {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please Login again.");
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           }
           const apiUrl = actionType === "UPDATE" ? `${process.env.NEXT_PUBLIC_API_URL}/api/payment/update/${selectedPaymentId}`
                                        : `${process.env.NEXT_PUBLIC_API_URL}/api/payment/replace/${selectedPaymentId}`;
           
-          const method = actionType === "UPDATE"  ? "PATCH"
-                                                  : "PUT" ;
+          const method = actionType === "UPDATE"  ? "PATCH" : "PUT" ;
 
           fetch(apiUrl, {
                method         : method,
@@ -246,18 +271,17 @@ export default function ManagePayment() {
                })
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert(`Successfully  ${actionType === "UPDATE" ? "updated" : "replaced"} Payment ID #${selectedPaymentId}`);
+                    toast.success(`Payment #${selectedPaymentId} ${actionType === "UPDATE" ? "updated" : "replaced"} successfully. ✅`);
                     setShowUpdateModal(false);
                     handleClearSearch();
                } else{
-                    alert("Error: "+ data.message)
+                    toast.error(data.message || "Operation failed.");
                }
           })
           .catch((error) => {
-               alert(error.message)
+               toast.error("Network error. Please try again.");
           })
      }
 
@@ -269,9 +293,14 @@ export default function ManagePayment() {
                          <h2 className={styles.pageTitle}>👑 Admin: All Payments</h2>
                          <p className={styles.pageSubtitle}>System-wide payment records</p>
                     </div>
-                    <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
-                         🔙 Back to Dashboard
-                    </button>
+                    <div className={styles.headerBtnGroup}>
+                         <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
+                              🔙 Back to Dashboard
+                         </button>
+                         <button onClick={handleLogoutButton} className={styles.logoutBtn}>
+                              Logout 🚪
+                         </button>
+                    </div>
                </div>
 
                <div className={styles.toolbar}>
@@ -302,9 +331,7 @@ export default function ManagePayment() {
                <div className={styles.tableCard}>
                     
                     {isLoading ? (
-                         <div className={styles.loadingState}>
-                              <h3>Loading All Payments... ⏳</h3>
-                         </div>
+                         <SpinnerLoader text="Loading All Payments... ⏳" />
                     ) : (
                          <div className={styles.tableResponsive}>
                               <table className={styles.dataTable}>

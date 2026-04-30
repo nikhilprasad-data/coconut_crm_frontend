@@ -1,18 +1,16 @@
 "use client";
 
 import {useRouter} from "next/navigation";
-
 import {useState,useEffect} from "react";
-
+import SpinnerLoader from "@/components/SpinnerLoader";
 import styles from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function HierarchyReport() {
      const router = useRouter()
 
      const [role,setRole] = useState("");
-
      const [isLoading,setIsLoading] = useState(true);
-
      const [hierarchyData,setHierarchyData] = useState([]);
 
      useEffect(() => {
@@ -21,7 +19,7 @@ export default function HierarchyReport() {
      const token = localStorage.getItem("coconut_token");
 
      if (!token || storedRole !== "admin"){
-          alert("Access Denied. Please Login as admin");
+          toast.error("Access Denied. Please log in as admin.");
           router.push('/');
           return;
      }
@@ -38,27 +36,26 @@ export default function HierarchyReport() {
           }
      })
      .then((response) => (response.json()))
-
      .then((data) => {
           if (data.status === "success"){
-               alert("Successfully fetched Hierarchy Report.");
+               toast.success("Hierarchy Report generated successfully. 📊");
                setHierarchyData(data.hierarchical_report);
           } else{
-               alert("Error: " + data.message);
+               toast.error(data.message || "Failed to generate report.");
           }
           setIsLoading(false);
      })
      .catch((error) => {
-          alert(error.message);
+          toast.error("Network error. Please try again.");
           setIsLoading(false);
      })
-     }, []);
+     }, [router]);
 
      const handleLogoutButton = () => {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please Login again.")
+               toast.error("Session expired. Please log in again.");
                router.push('/')
                return;
           }
@@ -74,21 +71,21 @@ export default function HierarchyReport() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully Loged out");
+                    toast.success("Successfully logged out. 👋");
                     localStorage.removeItem("coconut_token");
                     localStorage.removeItem("role");
                     router.push('/');
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Logout failed.");
                }
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
           })
      }
+
      return (
           <div className={styles.pageWrapper}>
                
@@ -110,9 +107,7 @@ export default function HierarchyReport() {
                <div className={styles.tableCard}>
                     
                     {isLoading ? (
-                         <div className={styles.loadingState}>
-                              <h3>Building Hierarchy Tree... ⏳</h3>
-                         </div>
+                         <SpinnerLoader text="Building Hierarchy Tree... ⏳" />
                     ) : (
                          <div className={styles.tableResponsive}>
                               <table className={styles.dataTable}>

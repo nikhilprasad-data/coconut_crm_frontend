@@ -1,27 +1,20 @@
 "use client"
 
 import {useRouter} from "next/navigation";
-
 import {useState} from "react";
-
-import styles from "./AddSellerForm.module.css"
+import toast from 'react-hot-toast';
+import styles from "./AddSellerForm.module.css";
 
 export default function AddSellerForm() {
 
      const router = useRouter();
 
      const [city, setCity]                   = useState("");
-
      const [state, setState]                 = useState("");
-
      const [sellerName, setSellerName]       = useState("");
-
      const [contactNumber, setContactNumber] = useState("");
-
      const [userName, setUserName]           = useState("");
-
      const [password, setPassword]           = useState("");
-
      const [isSubmitting,setIsSubmitting]    = useState(false)
 
      const handleRegisterButton = (e) => {
@@ -31,7 +24,7 @@ export default function AddSellerForm() {
           const token = localStorage.getItem("coconut_token")
 
           if (!token){
-               alert("Session expired, Please login again");
+               toast.error("Session expired. Please log in again.");
                setIsSubmitting(false)
                router.push('/')
                return;
@@ -55,22 +48,22 @@ export default function AddSellerForm() {
                })
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status == "success"){
-                    alert("Seller add successfully")
+                    toast.success("Seller added successfully! 🎉")
                     router.push('/manage-seller')
                } else{
-                    alert("Error: " + data.message)
+                    toast.error(data.message || "Failed to add seller.")
                     setIsSubmitting(false)
                }
           })
           .catch((error) => {
-               alert(error.message)
+               toast.error("Network error. Please try again.")
                setIsSubmitting(false)
           })
      }
-return (
+
+     return (
           <div className={styles.pageWrapper}>
                <div className={styles.formCard}>
                     

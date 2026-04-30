@@ -1,4 +1,3 @@
-
 .pageWrapper {
   min-height: 100vh;
   background-color: #f8f9fa; 
@@ -170,7 +169,7 @@
 .replaceBtn { background-color: #0dcaf0; color: #212529; }
 .replaceBtn:hover { background-color: #0bacce; }
 
-.loadingState, .emptyState {
+.emptyState {
   text-align: center;
   padding: 3rem;
   color: #6c757d;
@@ -325,4 +324,87 @@
   .inputRow { 
     grid-template-columns: 1fr; 
   } 
+}
+
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; 
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.headerBtnGroup, .headerButtons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.backBtn {
+  padding: 0.6rem 1.2rem;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backBtn:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.logoutBtn {
+  padding: 0.6rem 1.2rem;
+  background-color: #ef4444; 
+  color: #ffffff;
+  border: 1px solid #dc2626;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2); 
+}
+
+.logoutBtn:hover {
+  background-color: #dc2626; 
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px); 
+}
+
+@media (max-width: 768px) {
+  .headerSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .headerBtnGroup, .headerButtons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerBtnGroup, .headerButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .backBtn, .logoutBtn, .addBtn {
+    width: 100%;
+    justify-content: center;
+  }
 }

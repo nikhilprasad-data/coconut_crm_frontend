@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import {useState} from "react";
 import styles from "./LoginForm.module.css";
+import toast from 'react-hot-toast';
 
 export default function LoginForm() {
      const [username,setUsername]  = useState("");
@@ -16,10 +17,12 @@ export default function LoginForm() {
                setRole("admin");
                setUsername("demo_admin_11");
                setPassword("demo_password");
+               toast.success("Admin demo credentials loaded. 🛠️");
           } else{
                setRole("Seller");
                setUsername("demo_seller_12");
                setPassword("demo_password");
+               toast.success("Seller demo credentials loaded. 🏪");
           }
      };
      const handleLoginSubmit = (e) => {
@@ -46,16 +49,16 @@ export default function LoginForm() {
           .then((response)=> response.json())
           .then((data) => {
                if (data.status === "success"){
-                    alert("Login Successfull, Wellcome " + username);
+                    toast.success(`Welcome back, ${username}! 🚀`);
                     localStorage.setItem("coconut_token", data.access_token);
                     localStorage.setItem("role", role)
                     router.push('/dashboard');
                } else{
-                    alert("Login Failed " + data.message);
+                    toast.error(data.message || "Login Failed. Please check your credentials.");
                }
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again later.");
           });
      };
 

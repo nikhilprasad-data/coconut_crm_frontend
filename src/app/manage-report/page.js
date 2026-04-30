@@ -1,26 +1,30 @@
 "use client";
 
 import {useRouter} from "next/navigation";
-import { useEffect, useState } from "react";
+import {useState,useEffect} from "react";
+import SpinnerLoader from "@/components/SpinnerLoader";
 import styles from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function ManageReports() {
      
      const router = useRouter();
 
      const [role,setRole] = useState("");
+     const [isLoading, setIsLoading] = useState(true);
 
      useEffect(() => {
           const role     = localStorage.getItem("role"); 
           const token    = localStorage.getItem("coconut_token");
 
           if (!token || role !== "admin"){
-               alert("Access Denied. Please Login as admin");
+               toast.error("Access Denied. Please log in as admin.");
                router.push('/');
                return;
           }
           setRole(role);
-     }, []);
+          setIsLoading(false);
+     }, [router]);
 
      const handleYearlyReport       = () =>  router.push('/yearly-purchase');
 
@@ -30,7 +34,7 @@ export default function ManageReports() {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please Login again.")
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           }
@@ -46,21 +50,25 @@ export default function ManageReports() {
                }
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully Loged out");
+                    toast.success("Successfully logged out. 👋");
                     localStorage.removeItem("coconut_token");
                     localStorage.removeItem("role");
                     router.push('/');
                } else{
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Logout failed.");
                }
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
           })
      }
+
+     if (isLoading) {
+          return <SpinnerLoader text="Loading Reports..." />;
+     }
+
      return (
           <div className={styles.pageWrapper}>
                

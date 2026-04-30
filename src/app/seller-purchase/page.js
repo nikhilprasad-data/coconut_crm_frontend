@@ -1,10 +1,10 @@
 "use client";
 
 import {useState,useEffect} from "react";
-
 import {useRouter} from "next/navigation";
-
+import SpinnerLoader from "@/components/SpinnerLoader";
 import styles from "./page.module.css";
+import toast from 'react-hot-toast';
 
 export default function SellerPurchase() {
      const router = useRouter();
@@ -17,7 +17,7 @@ export default function SellerPurchase() {
           const token = localStorage.getItem("coconut_token");
 
           if (!token){
-               alert("Session expired. Please login again.");
+               toast.error("Session expired. Please log in again.");
                router.push('/');
                return;
           }
@@ -32,21 +32,60 @@ export default function SellerPurchase() {
                },
           })
           .then((response) => response.json())
-
           .then((data) => {
                if (data.status === "success"){
-                    alert("Successfully fetched all your purchase details");
+                    toast.success("Purchase history loaded successfully. 📦");
                     setSellerPurchase(data.data);
                } else {
-                    alert("Error: " + data.message);
+                    toast.error(data.message || "Failed to load purchase details.");
                }
                setIsLoading(false);
           })
           .catch((error) => {
-               alert(error.message);
+               toast.error("Network error. Please try again.");
                setIsLoading(false);
           })
-     }, []);
+     }, [router]);
+
+     const handleLogoutButton = () => {
+          const token = localStorage.getItem("coconut_token");
+          const role = localStorage.getItem("role");
+
+          if (!token){
+               toast.error("Session expired. Please log in again.");
+               router.push('/');
+               return;
+          }
+          
+          const apiUrl = role === 'admin' 
+               ? `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/admin`
+               : `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/seller`;
+
+          fetch(apiUrl, {
+               method         : "POST",
+               mode           : "cors",
+               credentials    : "omit",
+               headers        : {
+                    "Content-Type" : "application/json",
+                    "Authorization": "Bearer " + token,
+                    "Accept"       : "application/json"
+               }
+          })
+          .then((response) => response.json())
+          .then((data) => {
+               if (data.status === "success"){
+                    toast.success("Successfully logged out. 👋");
+                    localStorage.removeItem("coconut_token");
+                    localStorage.removeItem("role");
+                    router.push('/');
+               } else{
+                    toast.error(data.message || "Logout failed.");
+               }
+          })
+          .catch((error) => {
+               toast.error("Network error. Please try again.");
+          })
+     }
 
      return (
           <div className={styles.pageWrapper}>
@@ -56,16 +95,19 @@ export default function SellerPurchase() {
                          <h2 className={styles.pageTitle}>🛒 My Purchases</h2>
                          <p className={styles.pageSubtitle}>Track all your stock inward details</p>
                     </div>
-                    <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
-                         🔙 Back to Dashboard
-                    </button>
+                    <div className={styles.headerBtnGroup}>
+                         <button onClick={() => router.push('/dashboard')} className={styles.backBtn}>
+                              🔙 Back to Dashboard
+                         </button>
+                         <button onClick={handleLogoutButton} className={styles.logoutBtn}>
+                              Logout 🚪
+                         </button>
+                    </div>
                </div>
                <div className={styles.tableCard}>
                     
                     {isLoading ? (
-                         <div className={styles.loadingState}>
-                              <h3>Loading Purchase History... ⏳</h3>
-                         </div>
+                         <SpinnerLoader text="Loading Purchase History... ⏳" />
                     ) : (
                          <div className={styles.tableResponsive}>
                               <table className={styles.dataTable}>
