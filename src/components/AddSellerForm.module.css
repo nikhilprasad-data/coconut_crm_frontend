@@ -133,3 +133,25 @@
     gap: 1rem; 
   }
 }
+
+.btnDisabled {
+  background-color: #6c757d !important;
+  cursor: not-allowed !important;
+  opacity: 0.8;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.inputField:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+.loaderContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

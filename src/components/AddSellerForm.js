@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {useState} from "react";
 import toast from 'react-hot-toast';
 import styles from "./AddSellerForm.module.css";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 export default function AddSellerForm() {
 
@@ -69,7 +70,7 @@ export default function AddSellerForm() {
                     
                     <div className={styles.headerSection}>
                          <h2 className={styles.formTitle}>➕ Add New Seller</h2>
-                         <button onClick={() => router.push('/manage-seller')} className={styles.cancelBtn}>
+                         <button onClick={() => router.push('/manage-seller')} className={styles.cancelBtn} disabled={isSubmitting}>
                               Cancel
                          </button>
                     </div>
@@ -86,6 +87,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="e.g. Ramesh Enterprises" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -98,6 +100,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="+91 9876543210" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -110,6 +113,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="e.g. Delhi" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -122,6 +126,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="e.g. Delhi" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -134,6 +139,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="Seller's login ID" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -146,6 +152,7 @@ export default function AddSellerForm() {
                                         required 
                                         placeholder="Secret password" 
                                         className={styles.inputField} 
+                                        disabled={isSubmitting}
                                    />
                               </div>
 
@@ -159,6 +166,11 @@ export default function AddSellerForm() {
                               {isSubmitting ? "Adding Seller..." : "Register Seller 🚀"}
                          </button>
 
+                              {isSubmitting && (
+                                   <div className={styles.loaderContainer}>
+                                        <SpinnerLoader text="Saving Seller Details... ⏳" />
+                                   </div>
+                              )}
                     </form>
                </div>
           </div>

@@ -77,6 +77,22 @@
   background-color: #0b5ed7;
 }
 
+.btnDisabled {
+  background-color: #6c757d !important;
+  cursor: not-allowed !important;
+  opacity: 0.8;
+}
+
+.loaderOverlay {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.inputField:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
 
 .demoSection {
   text-align: center;
