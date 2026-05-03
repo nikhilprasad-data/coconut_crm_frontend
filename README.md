@@ -28,28 +28,28 @@ This is the client-side interface for Coconut CRM, built with Next.js. Rather th
 To run the frontend client locally and connect it to your backend:
 
 **1. Clone the repository**
-> ```bash
-> git clone [https://github.com/nikhilprasad-data/coconut_crm_frontend.git](https://github.com/nikhilprasad-data/coconut_crm_frontend.git)
-> cd coconut_crm_frontend
-> ```
+```bash
+git clone https://github.com/nikhilprasad-data/coconut_crm_frontend.git
+cd coconut_crm_frontend
+```
 
 **2. Install Node Dependencies**
 This project relies on `package.json` for dependency management.
-> ```bash
-> npm install
-> ```
+```bash
+npm install
+```
 
 **3. Environment Configuration**
 Create a `.env.local` file in the root directory to point to your backend API:
-> ```env
-> NEXT_PUBLIC_API_URL=http://localhost:5000
-> ```
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
 
 **4. Start the Development Server**
 Launch the Next.js development environment.
-> ```bash
-> npm run dev
-> ```
+```bash
+npm run dev
+```
 *Navigate to `http://localhost:3000` in your browser.*
 
 ---
